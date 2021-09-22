@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  sagely-support:
+    container_name: sagely-support
+    image: sagely-support
+    build:
+      context: .
+      target: development
+    volumes:
+      - ./src:/app/src
+    networks: 
+      - sagely-network
+    ports:
+      - 8000:8000

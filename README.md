@@ -1,3 +1,19 @@
+## Dockerfile
+nginx.conf to set 8081 port overriding 80 default port
+
+### 1. Remove running container
+docker stop `container-id`
+docker rm `container-id`
+
+### 2. Build Image:
+docker build -t hoang/sagely-support .
+
+### 2.1 (note) Remove image or build new image with --no-cache
+docker rmi `image-id`
+
+### 3. Run image
+docker run -d -it -p 7112:7112/tcp --name sagely-support hoang/sagely-support:latest
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

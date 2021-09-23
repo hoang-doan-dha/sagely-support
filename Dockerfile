@@ -1,14 +1,21 @@
-FROM node:14.17.4 AS development
-ENV NODE_ENV development
+FROM node:14.17.4 AS build-step
+ENV NODE_ENV production
+
+RUN mkdir -p /app
 # Add a work directory
 WORKDIR /app
 # Cache and Install dependencies
-COPY package.json .
-COPY yarn.lock .
-RUN yarn install
+COPY package.json /app
+RUN npm install
 # Copy app files
-COPY . .
-# Expose port
-EXPOSE 4200
+COPY . /app
+
 # Start the app
-CMD [ "yarn", "start" ]
+RUN npm run build
+
+# Stage 2
+FROM nginx:1.17.1-alpine
+COPY --from=build-step /app/build /usr/share/nginx/html
+COPY --from=build-step /app/nginx.conf /etc/nginx/
+EXPOSE 7200
+CMD ["nginx", "-g", "daemon off;"]

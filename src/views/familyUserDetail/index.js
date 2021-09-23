@@ -107,7 +107,6 @@ function FamilyUserDetailView(props) {
 
   return (
     <Container className={classes.container}>
-      <div>Family user id {familyUserId}</div>
       <form onSubmit={handleSubmit}>
         <TextField
           id="firstName"

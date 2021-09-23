@@ -1,5 +1,5 @@
 import { LinearProgress } from "@material-ui/core";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -9,9 +9,14 @@ import {
 } from "react-router-dom";
 import { getToken, setupAuth } from "./apis/auth";
 import { validateRequest } from "./auth/authAction";
-import NoMatch from "./views/404/404View";
-import HomeView from './views/home';
-import LoginView from './views/login';
+
+
+// import NoMatch from "./views/404/404View";
+// import HomeView from './views/home';
+// import LoginView from './views/login';
+const NoMatch = lazy(() => import("./views/404/404View"));
+const HomeView = lazy(() => import("./views/home"));
+const LoginView = lazy(() => import("./views/login"));
 
 
 function AppRouting() {
@@ -23,6 +28,7 @@ function AppRouting() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('AppRouting init')
     const token = getToken() || data?.token;
     if (token) {
       setupAuth(token);
@@ -41,20 +47,20 @@ function AppRouting() {
         loading 
         ? <LinearProgress color="primary" />
         : 
-        <Switch>
-          <Route path='/home'>
-            { status === 'successful' ? 
-              <HomeView/> : 
-              <Redirect to='/login'/> }
-          </Route>
-          <Route path='/login'>
-            { status !== 'successful' ? <LoginView/> : <Redirect to='/home'/> }
-          </Route>
-          <Route path='/' exact>
-            <Redirect to='/home'/>
-          </Route>
-          <Route component={NoMatch}/>
-        </Switch>
+        <Suspense fallback={<LinearProgress color="primary" />}>
+          <Switch>
+            <Route path='/home'>
+              <HomeView/> 
+            </Route>
+            <Route path='/login'>
+              { status !== 'successful' ? <LoginView/> : <Redirect to='/home'/> }
+            </Route>
+            <Route path='/' exact>
+              <Redirect to='/home'/>
+            </Route>
+            <Route component={NoMatch}/>
+          </Switch>
+        </Suspense>
       }
     </Router>
   )

@@ -5,6 +5,8 @@ import { getFamilyUserListRequest } from './state/familyUserAction';
 import SearchIcon from '@material-ui/icons/Search';
 import { useHistory } from 'react-router';
 import { parseIdFromHref } from '../../utils';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import './styles.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,6 +73,7 @@ function FamilyUserView () {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('FamilyUserView init')
     dispatch(getFamilyUserListRequest());
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -115,18 +118,29 @@ function FamilyUserView () {
           <List
             className={classes.list}
           >
+            <TransitionGroup>
             {
               getFilteredData().map((item) => (
-                <ListItem button key={item._href} onClick={() => navigateToDetail(item)}>
-                  <ListItemAvatar>
-                    <Avatar {...stringAvatar(`${item.firstName} ${item.lastName}`)} />
-                  </ListItemAvatar>
-                  <ListItemText primary={`${item.firstName} ${item.lastName}`} />
-                  <ListItemSecondaryAction>
-                    <Badge badgeContent={item.verified ? "VERIFIED" : null} color="primary" className={classes.badge} />
-                  </ListItemSecondaryAction>
-                </ListItem>
-                ))
+                <CSSTransition 
+                  id={item._href}
+                  timeout={500}
+                  classNames='family-user-item'
+                >
+                  <ListItem button key={item._href} onClick={() => navigateToDetail(item)}>
+                    <ListItemAvatar>
+                      <Avatar {...stringAvatar(`${item.firstName} ${item.lastName}`)} />
+                    </ListItemAvatar>
+                    <ListItemText primary={`${item.firstName} ${item.lastName}`} />
+                    <ListItemSecondaryAction>
+                      <Badge badgeContent={item.verified ? "VERIFIED" : null} color="primary" className={classes.badge} />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                </CSSTransition>
+              ))
+            }
+            </TransitionGroup>
+            {
+              getFilteredData().length === 0 && <ListItem>No user matches search term</ListItem>
             }
           </List>
         </div>

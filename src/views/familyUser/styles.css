@@ -1,0 +1,16 @@
+.family-user-item-enter {
+  opacity: 0;
+}
+.family-user-item-enter-active {
+  opacity: 1;
+  transition: all 500ms ease-in;
+}
+.family-user-item-exit {
+  opacity: 1;
+}
+.family-user-item-exit-active {
+  opacity: 0;
+  transform-origin: top;
+  transform: scaleY(0.5);
+  transition: all 500ms ease-in;
+}

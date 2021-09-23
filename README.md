@@ -1,5 +1,5 @@
 ## Dockerfile
-nginx.conf to set 8081 port overriding 80 default port
+nginx.conf to set 7200 port overriding 80 default port
 
 ### 1. Remove running container
 docker stop `container-id`
@@ -12,7 +12,7 @@ docker build -t hoang/sagely-support .
 docker rmi `image-id`
 
 ### 3. Run image
-docker run -d -it -p 7112:7112/tcp --name sagely-support hoang/sagely-support:latest
+docker run -d -it -p 7200:7200/tcp --name sagely-support hoang/sagely-support:latest
 
 # Getting Started with Create React App
 

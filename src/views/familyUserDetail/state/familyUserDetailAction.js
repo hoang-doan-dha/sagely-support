@@ -30,11 +30,19 @@ const activateFamilyUserError = (payload) => ({
   payload
 });
 
+/**
+ * Remove `isActivated` when destroying the component
+ */
+const clearActivatedFamilyUser = () => ({
+  type: FAMILY_USER_DETAIL.CLEAR_ACTIVATED_FAMILY_USER
+});
+
 export { 
   updateFamilyUserRequest, 
   updateFamilyUserSuccess, 
   updateFamilyUserError,
   activateFamilyUserRequest,
   activateFamilyUserSuccess,
-  activateFamilyUserError
+  activateFamilyUserError,
+  clearActivatedFamilyUser
 };

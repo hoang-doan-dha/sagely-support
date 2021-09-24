@@ -7,7 +7,6 @@ import { familyUserReducer } from "./views/familyUser/state/familyUserReducer";
 import familyUserSaga from "./views/familyUser/state/familyUserSaga";
 import { familyUserDetailReducer } from "./views/familyUserDetail/state/familyUserDetailReducer";
 import familyUserDetailSaga from "./views/familyUserDetail/state/familyUserDetailSaga";
-// import { loginRequest } from "./views/login/state/loginAction";
 
 import { loginReducer } from "./views/login/state/loginReducer";
 import loginSaga from "./views/login/state/loginSaga";
@@ -30,12 +29,17 @@ function* rootSaga() {
 
 const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware();
+
+  const composeEnhancers = process.env.NODE_ENV === 'development' && window.__REDUX_DEVTOOLS_EXTENSION__
+    ? compose(
+      applyMiddleware(sagaMiddleware),
+      window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+    : compose(applyMiddleware(sagaMiddleware));
+
   const store = createStore(
     rootReducer,
-    compose(
-      applyMiddleware(sagaMiddleware),
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-    )
+    composeEnhancers
   );
   sagaMiddleware.run(rootSaga);
 

@@ -72,7 +72,8 @@ function HomeView() {
   useEffect(() => {
     console.log('HomeView init');
     // console.log('status', status)
-    if (status && status !== 'successful') {
+    if (status !== 'successful') {
+      console.log('validate not successful');
       history.push('/login');
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps

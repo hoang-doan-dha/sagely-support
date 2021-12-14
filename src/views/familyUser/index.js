@@ -121,7 +121,8 @@ function FamilyUserView () {
             <TransitionGroup>
             {
               getFilteredData().map((item) => (
-                <CSSTransition 
+                <CSSTransition
+                  key={item._href}
                   id={item._href}
                   timeout={500}
                   classNames='family-user-item'

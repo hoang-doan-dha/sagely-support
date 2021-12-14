@@ -43,11 +43,7 @@ function AppRouting() {
 
   return (
     <Router>
-      {
-        loading 
-        ? <LinearProgress color="primary" />
-        : 
-        <Suspense fallback={<LinearProgress color="primary" />}>
+      <Suspense fallback={<LinearProgress color="primary" />}>
           <Switch>
             <Route path='/home'>
               <HomeView/> 
@@ -61,7 +57,6 @@ function AppRouting() {
             <Route component={NoMatch}/>
           </Switch>
         </Suspense>
-      }
     </Router>
   )
 }
